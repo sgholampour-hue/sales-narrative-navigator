@@ -2,7 +2,8 @@ import { useState } from "react";
 import type { Call } from "@/lib/callData";
 import { AnalysisTab } from "@/components/AnalysisTab";
 import { MarketingInsightsTab } from "@/components/MarketingInsightsTab";
-import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, ChevronDown } from "lucide-react";
+import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, ChevronDown, Download, FileText } from "lucide-react";
+import { exportCallCSV, exportCallPDF } from "@/lib/exportUtils";
 
 interface Props {
   call: Call;
@@ -44,9 +45,14 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
             <Copy size={12} className="cursor-pointer opacity-50 hover:opacity-100" />
           </p>
         </div>
-        <button className="border border-border rounded-lg px-4 py-2 text-sm font-medium bg-card text-foreground cursor-pointer flex items-center gap-1.5 hover:bg-secondary transition-colors self-start">
-          <MoreHorizontal size={14} /> Actions
-        </button>
+        <div className="flex gap-2 self-start">
+          <button onClick={() => exportCallCSV(call)} className="border border-border rounded-lg px-3 py-2 text-xs sm:text-sm font-medium bg-card text-foreground cursor-pointer flex items-center gap-1.5 hover:bg-secondary transition-colors">
+            <Download size={14} /> CSV
+          </button>
+          <button onClick={() => exportCallPDF(call)} className="border border-border rounded-lg px-3 py-2 text-xs sm:text-sm font-medium bg-card text-foreground cursor-pointer flex items-center gap-1.5 hover:bg-secondary transition-colors">
+            <FileText size={14} /> PDF
+          </button>
+        </div>
       </div>
 
       {/* Submission info card */}

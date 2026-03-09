@@ -1,16 +1,35 @@
-import { Phone, Bell, Sparkles, Moon, Sun } from "lucide-react";
+import { Phone, Bell, Sparkles, Moon, Sun, LayoutDashboard } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const Navbar = () => {
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <nav className="flex justify-between items-center px-4 sm:px-8 py-2.5 border-b border-border bg-card sticky top-0 z-40">
-      <div className="flex items-center gap-2">
-        <Phone size={18} className="text-foreground" />
-        <span className="font-semibold text-sm text-foreground tracking-tight">
-          Sales Call Analyzer
-        </span>
+      <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
+          <Phone size={18} className="text-foreground" />
+          <span className="font-semibold text-sm text-foreground tracking-tight">
+            Sales Call Analyzer
+          </span>
+        </div>
+        <div className="hidden sm:flex items-center gap-1 ml-2">
+          <button
+            onClick={() => navigate("/")}
+            className={`rounded-md px-3 py-1.5 text-xs font-medium cursor-pointer transition-colors border-none ${location.pathname === "/" ? "bg-secondary text-foreground" : "bg-transparent text-muted-foreground hover:text-foreground"}`}
+          >
+            Calls
+          </button>
+          <button
+            onClick={() => navigate("/dashboard")}
+            className={`rounded-md px-3 py-1.5 text-xs font-medium cursor-pointer transition-colors border-none flex items-center gap-1 ${location.pathname === "/dashboard" ? "bg-secondary text-foreground" : "bg-transparent text-muted-foreground hover:text-foreground"}`}
+          >
+            <LayoutDashboard size={12} /> Dashboard
+          </button>
+        </div>
       </div>
       <div className="flex gap-2">
         <button
