@@ -1,29 +1,31 @@
+import { Phone, Bell, Sparkles } from "lucide-react";
+
 export const Navbar = () => (
   <nav style={{
     display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: "12px 28px", borderBottom: "1px solid hsl(var(--border))",
+    padding: "10px 32px", borderBottom: "1px solid hsl(var(--border))",
     background: "hsl(var(--card))", position: "sticky", top: 0, zIndex: 40,
   }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-      <span style={{ fontSize: 22 }}>📞</span>
-      <span style={{ fontWeight: 700, fontSize: 16, color: "hsl(var(--foreground))" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+      <Phone size={18} style={{ color: "hsl(var(--foreground))" }} />
+      <span style={{ fontWeight: 600, fontSize: 14, color: "hsl(var(--foreground))", letterSpacing: "-0.01em" }}>
         Sales Call Analyzer
       </span>
     </div>
-    <div style={{ display: "flex", gap: 10 }}>
+    <div style={{ display: "flex", gap: 8 }}>
       <button style={{
         border: "1px solid hsl(var(--border))", borderRadius: 8,
-        padding: "7px 14px", fontSize: 12, background: "hsl(var(--card))",
-        color: "hsl(var(--foreground))",
+        padding: "6px 14px", fontSize: 12, fontWeight: 500, background: "hsl(var(--card))",
+        color: "hsl(var(--foreground))", display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
       }}>
-        🔔 Notifications
+        <Bell size={13} /> Notifications
       </button>
       <button style={{
-        borderRadius: 8, padding: "7px 14px", fontSize: 12,
-        border: "none", background: "hsl(var(--foreground))",
-        color: "hsl(var(--card))",
+        borderRadius: 8, padding: "6px 14px", fontSize: 12, fontWeight: 500,
+        border: "none", background: "hsl(var(--foreground))", color: "hsl(var(--card))",
+        display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
       }}>
-        ✦ Ask AI
+        <Sparkles size={13} /> Ask AI
       </button>
     </div>
   </nav>
