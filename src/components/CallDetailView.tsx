@@ -2,7 +2,8 @@ import { useState } from "react";
 import type { Call } from "@/lib/callData";
 import { AnalysisTab } from "@/components/AnalysisTab";
 import { MarketingInsightsTab } from "@/components/MarketingInsightsTab";
-import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, ChevronDown } from "lucide-react";
+import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, ChevronDown, Download, FileText } from "lucide-react";
+import { exportCallCSV, exportCallPDF } from "@/lib/exportUtils";
 
 interface Props {
   call: Call;
