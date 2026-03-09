@@ -216,7 +216,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     </td>
                     <td className="px-4 py-3.5">
                       <span className="rounded-full px-3 py-1 text-xs font-medium inline-flex items-center gap-1" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
-                        <CircleCheck size={12} /> {c.status}
+                        {c.status === "Processing" ? <Loader2 size={12} className="animate-spin" /> : c.status === "Pending" ? <Clock size={12} /> : <CircleCheck size={12} />} {c.status}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-foreground text-sm">{c.displayDate}</td>
