@@ -109,7 +109,7 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
       </div>
 
       {/* Tab content */}
-      {tab === "Analysis" && <AnalysisTab call={call} />}
+      {tab === "Analysis" && <AnalysisTab call={call} allCalls={allCalls} />}
       {tab === "Marketing Insights" && <MarketingInsightsTab call={call} />}
       {tab === "Transcript" && (
         <div className="text-center py-20 text-muted-foreground border border-border rounded-xl bg-card">

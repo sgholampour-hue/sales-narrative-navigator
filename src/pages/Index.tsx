@@ -23,7 +23,7 @@ const Index = () => {
       <Navbar />
       {view === "list" && <CallListView calls={CALLS} onOpenCall={openCall} />}
       {view === "detail" && selectedCall && (
-        <CallDetailView call={selectedCall} onBack={goBack} />
+        <CallDetailView call={selectedCall} allCalls={CALLS} onBack={goBack} />
       )}
     </div>
   );
