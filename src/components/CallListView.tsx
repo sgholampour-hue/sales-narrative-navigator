@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Call } from "@/lib/callData";
-import { Search, PhoneCall, Briefcase, Podcast, Settings, Plus, Headphones, ArrowUpDown, CircleCheck, TrendingDown, MoreHorizontal, CirclePlus } from "lucide-react";
+import { Search, PhoneCall, Briefcase, Podcast, Settings, Plus, Headphones, ArrowUpDown, CircleCheck, TrendingDown, MoreHorizontal, CirclePlus, Loader2, Clock } from "lucide-react";
 
 const STATUS_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   Completed: { bg: "hsl(var(--status-completed-bg))", text: "hsl(var(--status-completed-text))", border: "hsl(var(--status-completed-border))" },
   Active: { bg: "hsl(var(--status-active-bg))", text: "hsl(var(--status-active-text))", border: "hsl(var(--status-active-border))" },
   Failed: { bg: "hsl(var(--status-failed-bg))", text: "hsl(var(--status-failed-text))", border: "hsl(var(--status-failed-border))" },
   Pending: { bg: "hsl(var(--status-pending-bg))", text: "hsl(var(--status-pending-text))", border: "hsl(var(--status-pending-border))" },
+  Processing: { bg: "hsl(var(--status-active-bg))", text: "hsl(var(--status-active-text))", border: "hsl(var(--status-active-border))" },
 };
 
 const PROGRESS_MAP: Record<string, { color: string; label: string }> = {
@@ -215,7 +216,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     </td>
                     <td className="px-4 py-3.5">
                       <span className="rounded-full px-3 py-1 text-xs font-medium inline-flex items-center gap-1" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
-                        <CircleCheck size={12} /> {c.status}
+                        {c.status === "Processing" ? <Loader2 size={12} className="animate-spin" /> : c.status === "Pending" ? <Clock size={12} /> : <CircleCheck size={12} />} {c.status}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-foreground text-sm">{c.displayDate}</td>
@@ -255,7 +256,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     <p className="text-muted-foreground text-xs mt-0.5">{c.company} | {c.callType}</p>
                   </div>
                   <span className="rounded-full px-2.5 py-0.5 text-[11px] font-medium inline-flex items-center gap-1" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
-                    <CircleCheck size={10} /> {c.status}
+                    {c.status === "Processing" ? <Loader2 size={10} className="animate-spin" /> : c.status === "Pending" ? <Clock size={10} /> : <CircleCheck size={10} />} {c.status}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
