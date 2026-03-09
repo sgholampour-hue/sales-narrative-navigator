@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      call_analyses: {
+        Row: {
+          analysis_json: Json | null
+          belief_shifting_score: number | null
+          call_control_score: number | null
+          call_date: string
+          call_type: string
+          closing_strength_score: number | null
+          company_linkedin: string | null
+          company_name: string
+          created_at: string
+          deal_closed: boolean | null
+          deal_value: number | null
+          discovery_depth_score: number | null
+          headcount: string | null
+          hq_location: string | null
+          id: string
+          industry: string | null
+          next_steps: string | null
+          notes: string | null
+          objection_handling_score: number | null
+          pitch_effectiveness_score: number | null
+          prospect_email: string
+          prospect_linkedin: string | null
+          prospect_name: string
+          prospect_title: string | null
+          raw_analysis: string | null
+          status: string
+          total_score: number | null
+          transcript: string
+          updated_at: string
+          website_url: string | null
+          yearly_revenue: string | null
+        }
+        Insert: {
+          analysis_json?: Json | null
+          belief_shifting_score?: number | null
+          call_control_score?: number | null
+          call_date?: string
+          call_type?: string
+          closing_strength_score?: number | null
+          company_linkedin?: string | null
+          company_name: string
+          created_at?: string
+          deal_closed?: boolean | null
+          deal_value?: number | null
+          discovery_depth_score?: number | null
+          headcount?: string | null
+          hq_location?: string | null
+          id?: string
+          industry?: string | null
+          next_steps?: string | null
+          notes?: string | null
+          objection_handling_score?: number | null
+          pitch_effectiveness_score?: number | null
+          prospect_email: string
+          prospect_linkedin?: string | null
+          prospect_name: string
+          prospect_title?: string | null
+          raw_analysis?: string | null
+          status?: string
+          total_score?: number | null
+          transcript: string
+          updated_at?: string
+          website_url?: string | null
+          yearly_revenue?: string | null
+        }
+        Update: {
+          analysis_json?: Json | null
+          belief_shifting_score?: number | null
+          call_control_score?: number | null
+          call_date?: string
+          call_type?: string
+          closing_strength_score?: number | null
+          company_linkedin?: string | null
+          company_name?: string
+          created_at?: string
+          deal_closed?: boolean | null
+          deal_value?: number | null
+          discovery_depth_score?: number | null
+          headcount?: string | null
+          hq_location?: string | null
+          id?: string
+          industry?: string | null
+          next_steps?: string | null
+          notes?: string | null
+          objection_handling_score?: number | null
+          pitch_effectiveness_score?: number | null
+          prospect_email?: string
+          prospect_linkedin?: string | null
+          prospect_name?: string
+          prospect_title?: string | null
+          raw_analysis?: string | null
+          status?: string
+          total_score?: number | null
+          transcript?: string
+          updated_at?: string
+          website_url?: string | null
+          yearly_revenue?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
