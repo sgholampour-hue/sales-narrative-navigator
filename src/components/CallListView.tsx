@@ -256,7 +256,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     <p className="text-muted-foreground text-xs mt-0.5">{c.company} | {c.callType}</p>
                   </div>
                   <span className="rounded-full px-2.5 py-0.5 text-[11px] font-medium inline-flex items-center gap-1" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
-                    <CircleCheck size={10} /> {c.status}
+                    {c.status === "Processing" ? <Loader2 size={10} className="animate-spin" /> : c.status === "Pending" ? <Clock size={10} /> : <CircleCheck size={10} />} {c.status}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
