@@ -29,6 +29,7 @@ const CARD_ICONS = [
 ];
 
 export const CallListView = ({ calls, onOpenCall }: Props) => {
+  const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState<string[]>([]);
   const [typeFilter, setTypeFilter] = useState<string[]>([]);
   const [statusDropdown, setStatusDropdown] = useState(false);
