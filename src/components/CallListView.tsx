@@ -8,6 +8,7 @@ const STATUS_COLORS: Record<string, { bg: string; text: string; border: string }
   Active: { bg: "hsl(var(--status-active-bg))", text: "hsl(var(--status-active-text))", border: "hsl(var(--status-active-border))" },
   Failed: { bg: "hsl(var(--status-failed-bg))", text: "hsl(var(--status-failed-text))", border: "hsl(var(--status-failed-border))" },
   Pending: { bg: "hsl(var(--status-pending-bg))", text: "hsl(var(--status-pending-text))", border: "hsl(var(--status-pending-border))" },
+  Processing: { bg: "hsl(var(--status-active-bg))", text: "hsl(var(--status-active-text))", border: "hsl(var(--status-active-border))" },
 };
 
 const PROGRESS_MAP: Record<string, { color: string; label: string }> = {
