@@ -19,7 +19,7 @@ const Index = () => {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#f8fafc" }}>
+    <div className="min-h-screen bg-secondary">
       <Navbar />
       {view === "list" && <CallListView calls={CALLS} onOpenCall={openCall} />}
       {view === "detail" && selectedCall && (

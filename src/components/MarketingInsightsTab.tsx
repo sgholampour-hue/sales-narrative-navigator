@@ -7,9 +7,9 @@ interface Props {
 export const MarketingInsightsTab = ({ call }: Props) => {
   if (!call.painPoints.length) {
     return (
-      <div style={{ textAlign: "center", padding: "60px 0", color: "hsl(var(--muted-foreground))" }}>
-        <p style={{ fontSize: 36, marginBottom: 10 }}>📊</p>
-        <p>Geen marketing insights beschikbaar voor dit gesprek.</p>
+      <div className="text-center py-16 text-muted-foreground border border-border rounded-xl bg-card">
+        <p className="text-4xl mb-2.5">📊</p>
+        <p className="text-sm">Geen marketing insights beschikbaar voor dit gesprek.</p>
       </div>
     );
   }
@@ -17,48 +17,24 @@ export const MarketingInsightsTab = ({ call }: Props) => {
   return (
     <div>
       {/* Pain Points */}
-      <div style={{
-        background: "hsl(var(--secondary))", borderRadius: 12, padding: 20, marginBottom: 20,
-      }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 14 }}>
-          ⏱ Pain Points & Challenges
-        </p>
+      <div className="bg-secondary rounded-xl p-5 mb-5">
+        <p className="text-sm font-semibold text-foreground mb-3.5">⏱ Pain Points & Challenges</p>
         {call.painPoints.map((p, i) => (
-          <div key={i} style={{
-            background: "hsl(var(--card))", borderRadius: 10, padding: 16, marginBottom: 10,
-            border: "1px solid hsl(var(--border))",
-          }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 6 }}>
-              {p.title}
-            </p>
-            <p style={{
-              fontSize: 12, color: "hsl(var(--muted-foreground))", fontStyle: "italic",
-              borderLeft: "3px solid hsl(var(--border))", paddingLeft: 12,
-            }}>{p.quote}</p>
+          <div key={i} className="bg-card rounded-lg p-4 mb-2.5 border border-border last:mb-0">
+            <p className="text-sm font-semibold text-foreground mb-1.5">{p.title}</p>
+            <p className="text-xs text-muted-foreground italic border-l-[3px] border-border pl-3">{p.quote}</p>
           </div>
         ))}
       </div>
 
       {/* Goals */}
-      <div style={{
-        background: "hsl(var(--secondary))", borderRadius: 12, padding: 20,
-      }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 14 }}>
-          🎯 Goals & Objectives
-        </p>
+      <div className="bg-secondary rounded-xl p-5">
+        <p className="text-sm font-semibold text-foreground mb-3.5">🎯 Goals & Objectives</p>
         {call.goals.map((g, i) => (
-          <div key={i} style={{
-            background: "hsl(var(--card))", borderRadius: 10, padding: 16, marginBottom: 10,
-            border: "1px solid hsl(var(--border))",
-          }}>
-            <p style={{ fontSize: 13, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 6 }}>
-              {g.title}
-            </p>
+          <div key={i} className="bg-card rounded-lg p-4 mb-2.5 border border-border last:mb-0">
+            <p className="text-sm font-semibold text-foreground mb-1.5">{g.title}</p>
             {g.quotes.map((q, j) => (
-              <p key={j} style={{
-                fontSize: 12, color: "hsl(var(--muted-foreground))", fontStyle: "italic",
-                borderLeft: "3px solid hsl(var(--border))", paddingLeft: 12,
-              }}>{q}</p>
+              <p key={j} className="text-xs text-muted-foreground italic border-l-[3px] border-border pl-3">{q}</p>
             ))}
           </div>
         ))}

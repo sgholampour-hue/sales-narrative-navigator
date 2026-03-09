@@ -1,32 +1,32 @@
-import { Phone, Bell, Sparkles } from "lucide-react";
+import { Phone, Bell, Sparkles, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 
-export const Navbar = () => (
-  <nav style={{
-    display: "flex", justifyContent: "space-between", alignItems: "center",
-    padding: "10px 32px", borderBottom: "1px solid hsl(var(--border))",
-    background: "hsl(var(--card))", position: "sticky", top: 0, zIndex: 40,
-  }}>
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <Phone size={18} style={{ color: "hsl(var(--foreground))" }} />
-      <span style={{ fontWeight: 600, fontSize: 14, color: "hsl(var(--foreground))", letterSpacing: "-0.01em" }}>
-        Sales Call Analyzer
-      </span>
-    </div>
-    <div style={{ display: "flex", gap: 8 }}>
-      <button style={{
-        border: "1px solid hsl(var(--border))", borderRadius: 8,
-        padding: "6px 14px", fontSize: 12, fontWeight: 500, background: "hsl(var(--card))",
-        color: "hsl(var(--foreground))", display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
-      }}>
-        <Bell size={13} /> Notifications
-      </button>
-      <button style={{
-        borderRadius: 8, padding: "6px 14px", fontSize: 12, fontWeight: 500,
-        border: "none", background: "hsl(var(--foreground))", color: "hsl(var(--card))",
-        display: "flex", alignItems: "center", gap: 6, cursor: "pointer",
-      }}>
-        <Sparkles size={13} /> Ask AI
-      </button>
-    </div>
-  </nav>
-);
+export const Navbar = () => {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <nav className="flex justify-between items-center px-4 sm:px-8 py-2.5 border-b border-border bg-card sticky top-0 z-40">
+      <div className="flex items-center gap-2">
+        <Phone size={18} className="text-foreground" />
+        <span className="font-semibold text-sm text-foreground tracking-tight">
+          Sales Call Analyzer
+        </span>
+      </div>
+      <div className="flex gap-2">
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="border border-border rounded-lg px-3 py-1.5 text-xs font-medium bg-card text-foreground flex items-center gap-1.5 cursor-pointer hover:bg-secondary transition-colors"
+        >
+          {theme === "dark" ? <Sun size={13} /> : <Moon size={13} />}
+          <span className="hidden sm:inline">{theme === "dark" ? "Light" : "Dark"}</span>
+        </button>
+        <button className="hidden sm:flex border border-border rounded-lg px-3.5 py-1.5 text-xs font-medium bg-card text-foreground items-center gap-1.5 cursor-pointer hover:bg-secondary transition-colors">
+          <Bell size={13} /> Notifications
+        </button>
+        <button className="rounded-lg px-3.5 py-1.5 text-xs font-medium border-none bg-foreground text-card flex items-center gap-1.5 cursor-pointer">
+          <Sparkles size={13} /> <span className="hidden sm:inline">Ask AI</span>
+        </button>
+      </div>
+    </nav>
+  );
+};
