@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, Loader2 } from "lucide-react";
 import { format } from "date-fns";
 import { nl } from "date-fns/locale";
 import { cn } from "@/lib/utils";
@@ -10,6 +10,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const CALL_TYPES = ["Discovery Call", "Interview Call", "Sales Call", "Podcast Call"];
 const HEADCOUNT_OPTIONS = ["Not Sure", "1-10", "11-50", "51-200", "201-1000", "1000+"];
@@ -18,6 +19,7 @@ const REVENUE_OPTIONS = ["Not Sure", "< €1M", "€1M - €10M", "€10M - €5
 const NewCall = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Step 1
   const [callType, setCallType] = useState("Sales Call");
@@ -41,12 +43,60 @@ const NewCall = () => {
   const canNext = fullName.trim() && email.trim();
   const canSubmit = companyName.trim() && transcript.trim();
 
-  const handleSubmit = () => {
-    toast({
-      title: "Analyse ingediend",
-      description: "Je transcriptie wordt geanalyseerd. Dit kan even duren.",
-    });
-    navigate("/");
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
+    try {
+      // 1. Insert call analysis record
+      const { data: inserted, error: insertError } = await supabase
+        .from("call_analyses")
+        .insert({
+          call_type: callType,
+          call_date: format(callDate, "yyyy-MM-dd"),
+          prospect_name: fullName,
+          prospect_title: jobTitle || null,
+          prospect_email: email,
+          prospect_linkedin: linkedinUrl || null,
+          company_name: companyName,
+          website_url: websiteUrl || null,
+          industry: industry || null,
+          headcount: headcount !== "Not Sure" ? headcount : null,
+          company_linkedin: companyLinkedin || null,
+          hq_location: hqLocation || null,
+          yearly_revenue: yearlyRevenue !== "Not Sure" ? yearlyRevenue : null,
+          transcript,
+          notes: notes || null,
+          status: "pending",
+        })
+        .select("id")
+        .single();
+
+      if (insertError || !inserted) {
+        throw new Error(insertError?.message || "Failed to create analysis");
+      }
+
+      toast({
+        title: "Analyse ingediend",
+        description: "Je transcriptie wordt geanalyseerd. Dit kan even duren.",
+      });
+
+      // 2. Trigger the AI analysis edge function (fire and forget)
+      supabase.functions.invoke("analyze-call", {
+        body: { analysisId: inserted.id },
+      }).then(({ error }) => {
+        if (error) console.error("Analysis trigger error:", error);
+      });
+
+      navigate("/");
+    } catch (err: any) {
+      console.error("Submit error:", err);
+      toast({
+        title: "Fout bij indienen",
+        description: err.message || "Er ging iets mis. Probeer het opnieuw.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -162,9 +212,16 @@ const NewCall = () => {
 
               {/* Actions */}
               <div className="flex justify-between items-center mt-4">
-                <Button variant="outline" onClick={() => setStep(1)}>Previous</Button>
-                <Button onClick={handleSubmit} disabled={!canSubmit} className="bg-foreground text-card hover:bg-foreground/90">
-                  Submit for Analysis
+                <Button variant="outline" onClick={() => setStep(1)} disabled={isSubmitting}>Previous</Button>
+                <Button onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="bg-foreground text-card hover:bg-foreground/90">
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={14} className="mr-2 animate-spin" />
+                      Indienen...
+                    </>
+                  ) : (
+                    "Submit for Analysis"
+                  )}
                 </Button>
               </div>
             </>
