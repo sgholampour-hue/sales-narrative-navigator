@@ -1,5 +1,6 @@
-import { Phone, Bell, Sparkles, Moon, Sun } from "lucide-react";
+import { Phone, Bell, Sparkles, Moon, Sun, LayoutDashboard } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const Navbar = () => {
   const { theme, setTheme } = useTheme();
