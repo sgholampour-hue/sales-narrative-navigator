@@ -6,6 +6,7 @@ import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, Chevron
 
 interface Props {
   call: Call;
+  allCalls?: Call[];
   onBack: () => void;
 }
 
