@@ -10,7 +10,7 @@ interface Props {
   onBack: () => void;
 }
 
-export const CallDetailView = ({ call, onBack }: Props) => {
+export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
   const [tab, setTab] = useState("Analysis");
   const tabs = ["Analysis", "Marketing Insights", "Transcript"];
 
