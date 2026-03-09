@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import type { Call } from "@/lib/callData";
 import { Search, PhoneCall, Briefcase, Podcast, Settings, Plus, Headphones, ArrowUpDown, CircleCheck, TrendingDown, MoreHorizontal, CirclePlus } from "lucide-react";
 
