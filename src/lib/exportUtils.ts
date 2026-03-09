@@ -86,6 +86,65 @@ td:first-child{font-weight:600;width:40%;background:#f8f9fa}.score{display:inlin
   }
 }
 
+export function exportDashboardPDF(calls: Call[]) {
+  const total = calls.length;
+  const avgScore = total > 0 ? (calls.reduce((a, c) => a + c.totalScore, 0) / total).toFixed(1) : "0";
+  const closed = calls.filter(c => c.dealClosed === "Yes");
+  const convRate = total > 0 ? Math.round((closed.length / total) * 100) : 0;
+  const totalRev = closed.reduce((a, c) => a + c.dealValue, 0);
+
+  const repMap = new Map<string, { total: number; count: number; deals: number }>();
+  calls.forEach(c => {
+    const r = repMap.get(c.rep) || { total: 0, count: 0, deals: 0 };
+    r.total += c.totalScore; r.count += 1;
+    if (c.dealClosed === "Yes") r.deals += 1;
+    repMap.set(c.rep, r);
+  });
+  const repRows = Array.from(repMap.entries())
+    .map(([name, d]) => `<tr><td>${name}</td><td>${d.count}</td><td>${(d.total / d.count).toFixed(1)}/10</td><td>${d.deals}</td><td>${d.count > 0 ? Math.round((d.deals / d.count) * 100) : 0}%</td></tr>`)
+    .join("");
+
+  const categories = [
+    { label: "Call Control", key: "callControlScore" as const },
+    { label: "Discovery Depth", key: "discoveryDepthScore" as const },
+    { label: "Belief Shifting", key: "beliefShiftingScore" as const },
+    { label: "Objection Handling", key: "objectionHandlingScore" as const },
+    { label: "Pitch Effectiveness", key: "pitchEffectivenessScore" as const },
+    { label: "Closing Strength", key: "closingStrengthScore" as const },
+  ];
+  const leaderRows = categories.map(cat => {
+    const best = calls.reduce((a, c) => c[cat.key] > (a?.[cat.key] ?? 0) ? c : a, calls[0]);
+    return `<tr><td>${cat.label}</td><td>${best?.rep ?? "-"}</td><td>${best?.[cat.key] ?? 0}/10</td></tr>`;
+  }).join("");
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>Dashboard Report</title>
+<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:40px auto;padding:20px;color:#1a1a2e}
+h1{font-size:22px;margin-bottom:4px}h2{font-size:15px;color:#555;margin:24px 0 8px;border-bottom:1px solid #eee;padding-bottom:4px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.kpi{background:#f8f9fa;border:1px solid #e5e5e5;border-radius:8px;padding:16px}
+.kpi-label{font-size:11px;color:#666;text-transform:uppercase}.kpi-value{font-size:22px;font-weight:700;margin-top:4px}
+table{width:100%;border-collapse:collapse;margin:8px 0}th,td{padding:6px 12px;border:1px solid #e5e5e5;font-size:13px;text-align:left}
+th{background:#f1f5f9;font-weight:600;font-size:11px;text-transform:uppercase}
+</style></head><body>
+<h1>Sales Dashboard Report</h1>
+<p style="color:#666;font-size:13px">Gegenereerd op ${new Date().toLocaleDateString("nl-NL")}</p>
+<div class="kpi-grid">
+<div class="kpi"><div class="kpi-label">Totaal Calls</div><div class="kpi-value">${total}</div></div>
+<div class="kpi"><div class="kpi-label">Gem. Score</div><div class="kpi-value">${avgScore}/10</div></div>
+<div class="kpi"><div class="kpi-label">Conversie</div><div class="kpi-value">${convRate}%</div></div>
+<div class="kpi"><div class="kpi-label">Totale Omzet</div><div class="kpi-value">€${totalRev.toLocaleString()}</div></div>
+<div class="kpi"><div class="kpi-label">Gem. Deal Waarde</div><div class="kpi-value">€${closed.length > 0 ? Math.round(totalRev / closed.length).toLocaleString() : 0}</div></div>
+<div class="kpi"><div class="kpi-label">Reps</div><div class="kpi-value">${repMap.size}</div></div>
+</div>
+<h2>Rep Overzicht</h2>
+<table><thead><tr><th>Rep</th><th>Calls</th><th>Gem. Score</th><th>Deals</th><th>Conversie</th></tr></thead><tbody>${repRows}</tbody></table>
+<h2>Leaderboard - Top per Categorie</h2>
+<table><thead><tr><th>Categorie</th><th>Top Performer</th><th>Score</th></tr></thead><tbody>${leaderRows}</tbody></table>
+</body></html>`;
+  const w = window.open("", "_blank");
+  if (w) { w.document.write(html); w.document.close(); setTimeout(() => w.print(), 300); }
+}
+
 function download(content: string, filename: string, type: string) {
   const blob = new Blob([content], { type });
   const url = URL.createObjectURL(blob);
