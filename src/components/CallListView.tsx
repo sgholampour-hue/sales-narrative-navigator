@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { Call } from "@/lib/callData";
-import { Search, PhoneCall, Briefcase, Podcast, Settings, Plus, Headphones, ArrowUpDown, CircleCheck, TrendingDown, MoreHorizontal, CirclePlus } from "lucide-react";
+import { Search, PhoneCall, Briefcase, Podcast, Settings, Plus, Headphones, ArrowUpDown, CircleCheck, TrendingDown, MoreHorizontal, CirclePlus, Loader2, Clock } from "lucide-react";
 
 const STATUS_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   Completed: { bg: "hsl(var(--status-completed-bg))", text: "hsl(var(--status-completed-text))", border: "hsl(var(--status-completed-border))" },
