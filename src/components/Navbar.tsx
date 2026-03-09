@@ -12,10 +12,16 @@ export const Navbar = () => {
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate("/")}>
           <Phone size={18} className="text-foreground" />
-          <span className="font-semibold text-sm text-foreground tracking-tight">
+          <span className={cn("font-semibold text-sm tracking-tight", location.pathname === "/new-call" ? "text-muted-foreground" : "text-foreground")}>
             Sales Call Analyzer
           </span>
         </div>
+        {location.pathname === "/new-call" && (
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground">›</span>
+            <span className="font-semibold text-foreground text-sm">Review Recording</span>
+          </div>
+        )}
         <div className="hidden sm:flex items-center gap-1 ml-2">
           <button
             onClick={() => navigate("/")}
