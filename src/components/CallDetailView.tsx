@@ -6,10 +6,11 @@ import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, Chevron
 
 interface Props {
   call: Call;
+  allCalls?: Call[];
   onBack: () => void;
 }
 
-export const CallDetailView = ({ call, onBack }: Props) => {
+export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
   const [tab, setTab] = useState("Analysis");
   const tabs = ["Analysis", "Marketing Insights", "Transcript"];
 
@@ -108,7 +109,7 @@ export const CallDetailView = ({ call, onBack }: Props) => {
       </div>
 
       {/* Tab content */}
-      {tab === "Analysis" && <AnalysisTab call={call} />}
+      {tab === "Analysis" && <AnalysisTab call={call} allCalls={allCalls} />}
       {tab === "Marketing Insights" && <MarketingInsightsTab call={call} />}
       {tab === "Transcript" && (
         <div className="text-center py-20 text-muted-foreground border border-border rounded-xl bg-card">

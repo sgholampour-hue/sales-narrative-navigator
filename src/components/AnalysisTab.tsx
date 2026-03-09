@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Call } from "@/lib/callData";
-import { Info, FileText, Target, Search, Lightbulb, Wrench, BarChart3, Flame } from "lucide-react";
+import { Info, FileText, Target, Search, Lightbulb, Wrench, BarChart3, Flame, CheckCircle2, XCircle, Zap, AlertTriangle } from "lucide-react";
+import { ScoreTrendChart } from "@/components/ScoreTrendChart";
 
 const scoreColor = (s: number) =>
   s >= 7.5
@@ -17,6 +18,7 @@ const CRIT_BG: Record<string, { bg: string; text: string }> = {
 
 interface Props {
   call: Call;
+  allCalls?: Call[];
 }
 
 const BREAKDOWN_ITEMS = [
@@ -28,7 +30,14 @@ const BREAKDOWN_ITEMS = [
   { key: "closingStrengthScore" as const, label: "Afsluithracht", icon: <Flame size={14} /> },
 ];
 
-export const AnalysisTab = ({ call }: Props) => {
+const SUMMARY_ITEMS = [
+  { key: "whatWorked" as const, label: "Wat werkte", icon: <CheckCircle2 size={15} />, bgClass: "bg-score-high" },
+  { key: "areasToImprove" as const, label: "Verbeterpunten", icon: <XCircle size={15} />, bgClass: "bg-score-low" },
+  { key: "keyStrength" as const, label: "Kernkracht", icon: <Zap size={15} />, bgClass: "bg-score-mid" },
+  { key: "keyWeakness" as const, label: "Kernzwakte", icon: <AlertTriangle size={15} />, bgClass: "bg-amber-50 dark:bg-amber-950/30" },
+];
+
+export const AnalysisTab = ({ call, allCalls }: Props) => {
   const [expandedStage, setExpandedStage] = useState<string | null>(null);
 
   return (
@@ -80,6 +89,37 @@ export const AnalysisTab = ({ call }: Props) => {
           })}
         </div>
       </div>
+
+      {/* Gespreksanalyse Samenvatting */}
+      <div className="border border-border rounded-xl p-5 bg-card mb-7">
+        <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Gespreksanalyse Samenvatting</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          {SUMMARY_ITEMS.map(item => (
+            <div key={item.key} className="rounded-lg p-4 border border-border bg-secondary">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-muted-foreground">{item.icon}</span>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{item.label}</p>
+              </div>
+              <p className="text-sm font-medium text-foreground">{call[item.key]}</p>
+            </div>
+          ))}
+        </div>
+        <div className="bg-secondary rounded-lg p-4 border border-border">
+          <div className="flex items-center gap-2 mb-2">
+            <Target size={15} className="text-muted-foreground" />
+            <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Actie volgend gesprek</p>
+          </div>
+          <p className="text-sm font-medium text-foreground">{call.nextCallAction}</p>
+        </div>
+      </div>
+
+      {/* Score Trend Chart */}
+      {allCalls && allCalls.length > 1 && (
+        <div className="border border-border rounded-xl p-5 bg-card mb-7">
+          <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score Trends</p>
+          <ScoreTrendChart calls={allCalls} />
+        </div>
+      )}
 
       {/* Call Stages Analysis */}
       <div className="mb-7">
