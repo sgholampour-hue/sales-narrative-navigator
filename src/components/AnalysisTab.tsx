@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Call } from "@/lib/callData";
-import { Info, FileText } from "lucide-react";
+import { Info, FileText, Target, Search, Lightbulb, Wrench, BarChart3, Flame } from "lucide-react";
 
 const scoreColor = (s: number) =>
   s >= 7.5
@@ -19,161 +19,137 @@ interface Props {
   call: Call;
 }
 
+const BREAKDOWN_ITEMS = [
+  { key: "callControlScore" as const, label: "Gesprekscontrole", icon: <Target size={14} /> },
+  { key: "discoveryDepthScore" as const, label: "Discovery Diepte", icon: <Search size={14} /> },
+  { key: "beliefShiftingScore" as const, label: "Overtuiging", icon: <Lightbulb size={14} /> },
+  { key: "objectionHandlingScore" as const, label: "Bezwaarbehandeling", icon: <Wrench size={14} /> },
+  { key: "pitchEffectivenessScore" as const, label: "Pitch Effectiviteit", icon: <BarChart3 size={14} /> },
+  { key: "closingStrengthScore" as const, label: "Afsluithracht", icon: <Flame size={14} /> },
+];
+
 export const AnalysisTab = ({ call }: Props) => {
   const [expandedStage, setExpandedStage] = useState<string | null>(null);
 
   return (
     <div>
-      {/* Score cards - horizontal with score on right */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
+      {/* Score cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-7">
         {[
           { l: "Total Score", s: "Total points earned across all analyzed stages.", sc: call.totalScore },
           { l: "Average Score", s: "Average stage performance calculated across all stages.", sc: call.averageScore },
         ].map(x => {
           const c = scoreColor(x.sc);
           return (
-            <div key={x.l} style={{
-              border: "1px solid hsl(var(--border))", borderRadius: 12, padding: "20px 24px",
-              background: "hsl(var(--card))",
-              display: "flex", justifyContent: "space-between", alignItems: "center",
-            }}>
+            <div key={x.l} className="border border-border rounded-xl p-5 bg-card flex justify-between items-center">
               <div>
-                <p style={{ fontSize: 14, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 4 }}>{x.l}</p>
-                <p style={{ fontSize: 12, color: "hsl(var(--muted-foreground))" }}>{x.s}</p>
+                <p className="text-sm font-semibold text-foreground mb-1">{x.l}</p>
+                <p className="text-xs text-muted-foreground">{x.s}</p>
               </div>
-              <span style={{
-                fontSize: 24, fontWeight: 700, color: c.text,
-                border: `2px solid ${c.border}`, borderRadius: 10, padding: "8px 16px",
-                background: c.bg, whiteSpace: "nowrap",
+              <span className="text-2xl font-bold whitespace-nowrap rounded-lg px-4 py-2" style={{
+                color: c.text, border: `2px solid ${c.border}`, background: c.bg,
               }}>{x.sc}/10</span>
             </div>
           );
         })}
       </div>
 
+      {/* Score Breakdown */}
+      <div className="border border-border rounded-xl p-5 bg-card mb-7">
+        <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score Breakdown</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {BREAKDOWN_ITEMS.map(item => {
+            const sc = call[item.key];
+            const c = scoreColor(sc);
+            return (
+              <div key={item.key} className="bg-secondary rounded-lg p-3.5 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <span className="text-muted-foreground">{item.icon}</span>
+                  <span className="text-sm font-medium text-foreground">{item.label}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-16 h-2 bg-border rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all" style={{
+                      width: `${sc * 10}%`, background: c.text,
+                    }} />
+                  </div>
+                  <span className="text-sm font-semibold text-foreground min-w-[36px] text-right">{sc}/10</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Call Stages Analysis */}
-      <div style={{ marginBottom: 28 }}>
-        <div style={{
-          display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16,
-        }}>
-          <p style={{ fontSize: 16, fontWeight: 700, color: "hsl(var(--foreground))", letterSpacing: "-0.01em" }}>
-            Call Stages Analysis
-          </p>
-          <span style={{
-            fontSize: 12, color: "hsl(var(--muted-foreground))",
-            display: "flex", alignItems: "center", gap: 5,
-          }}>
+      <div className="mb-7">
+        <div className="flex justify-between items-center mb-4">
+          <p className="text-sm font-bold text-foreground tracking-tight">Call Stages Analysis</p>
+          <span className="text-xs text-muted-foreground flex items-center gap-1.5">
             <Info size={13} /> Click on stage to open analysis
           </span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        <div className="flex flex-col gap-2.5">
           {call.stages.map(st => {
             const isOpen = expandedStage === st.name;
             return (
-              <div key={st.name} style={{
-                border: "1px solid hsl(var(--border))", borderRadius: 12,
-                background: "hsl(var(--card))", overflow: "hidden",
-                borderLeft: isOpen ? "3px solid hsl(var(--primary))" : "1px solid hsl(var(--border))",
+              <div key={st.name} className="border border-border rounded-xl bg-card overflow-hidden" style={{
+                borderLeft: isOpen ? "3px solid hsl(var(--primary))" : undefined,
               }}>
                 <div
                   onClick={() => setExpandedStage(isOpen ? null : st.name)}
-                  style={{
-                    padding: "16px 20px", display: "flex", alignItems: "center",
-                    cursor: "pointer", gap: 20,
-                  }}
+                  className="px-4 sm:px-5 py-4 flex items-center gap-3 sm:gap-5 cursor-pointer"
                 >
-                  <span style={{ fontSize: 14, fontWeight: 500, color: "hsl(var(--foreground))", minWidth: 180 }}>
-                    {st.name}
-                  </span>
-                  {/* Progress bar */}
-                  <div style={{
-                    flex: 1, height: 8, background: "hsl(var(--secondary))", borderRadius: 4,
-                    overflow: "hidden",
-                  }}>
-                    <div style={{
-                      width: `${st.score * 10}%`, height: "100%",
-                      background: "hsl(var(--foreground))", borderRadius: 4,
-                      transition: "width .3s ease",
-                    }} />
+                  <span className="text-sm font-medium text-foreground min-w-[100px] sm:min-w-[180px]">{st.name}</span>
+                  <div className="flex-1 h-2 bg-secondary rounded-full overflow-hidden">
+                    <div className="h-full bg-foreground rounded-full transition-all" style={{ width: `${st.score * 10}%` }} />
                   </div>
-                  <span style={{
-                    fontSize: 14, fontWeight: 600, color: "hsl(var(--foreground))",
-                    minWidth: 50, textAlign: "right",
-                  }}>
-                    {st.score}<span style={{ fontWeight: 400, color: "hsl(var(--muted-foreground))" }}>/10</span>
+                  <span className="text-sm font-semibold text-foreground min-w-[50px] text-right">
+                    {st.score}<span className="font-normal text-muted-foreground">/10</span>
                   </span>
                 </div>
 
                 {isOpen && (
-                  <div style={{
-                    padding: "0 20px 20px", borderTop: "1px solid hsl(var(--border))",
-                  }}>
+                  <div className="px-4 sm:px-5 pb-5 border-t border-border">
                     {st.criteria.length === 0 && (
-                      <p style={{
-                        fontSize: 13, color: "hsl(var(--muted-foreground))", padding: "16px 0",
-                      }}>Geen gedetailleerde criteria beschikbaar voor dit stage.</p>
+                      <p className="text-sm text-muted-foreground py-4">Geen gedetailleerde criteria beschikbaar voor dit stage.</p>
                     )}
                     {st.criteria.map(cr => {
                       const critStyle = CRIT_BG[cr.status];
                       return (
-                        <div key={cr.name} style={{
-                          padding: "18px 0",
-                          borderBottom: "1px solid hsl(var(--border))",
-                        }}>
-                          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                            <span style={{
-                              fontSize: 12, fontWeight: 600, color: critStyle.text,
-                              background: critStyle.bg, borderRadius: 6, padding: "3px 10px",
-                              display: "inline-flex", alignItems: "center", gap: 4,
+                        <div key={cr.name} className="py-4 border-b border-border last:border-b-0">
+                          <div className="flex items-center gap-3 mb-3">
+                            <span className="text-xs font-semibold rounded-md px-2.5 py-1 inline-flex items-center gap-1" style={{
+                              color: critStyle.text, background: critStyle.bg,
                             }}>
                               {cr.status === "pass" ? "✓" : cr.status === "fail" ? "✗" : "—"} Score: {cr.score}/10
                             </span>
-                            <span style={{ fontSize: 14, fontWeight: 600, color: "hsl(var(--foreground))" }}>
-                              {cr.name}
-                            </span>
+                            <span className="text-sm font-semibold text-foreground">{cr.name}</span>
                           </div>
 
-                          <p style={{
-                            fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))",
-                            marginBottom: 6,
-                          }}>Feedback:</p>
+                          <p className="text-xs font-semibold text-foreground mb-1.5">Feedback:</p>
                           {cr.feedback.map((f, i) => (
-                            <p key={i} style={{
-                              fontSize: 13, color: "hsl(var(--muted-foreground))",
-                              marginBottom: 4, paddingLeft: 16, position: "relative",
-                            }}>
-                              <span style={{ position: "absolute", left: 0 }}>→</span>
+                            <p key={i} className="text-sm text-muted-foreground mb-1 pl-4 relative">
+                              <span className="absolute left-0">→</span>
                               {f}
                             </p>
                           ))}
 
                           {cr.transcriptExamples && (
-                            <div style={{ marginTop: 14 }}>
-                              <p style={{
-                                fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))",
-                                marginBottom: 6,
-                              }}>Transcript Examples:</p>
+                            <div className="mt-3.5">
+                              <p className="text-xs font-semibold text-foreground mb-1.5">Transcript Examples:</p>
                               {cr.transcriptExamples.map((t, i) => (
-                                <p key={i} style={{
-                                  fontSize: 12, color: "hsl(var(--muted-foreground))",
-                                  fontStyle: "italic", marginBottom: 4,
-                                }}>{t}</p>
+                                <p key={i} className="text-xs text-muted-foreground italic mb-1">{t}</p>
                               ))}
                             </div>
                           )}
 
                           {cr.improvementExample && (
-                            <div style={{ marginTop: 14 }}>
-                              <p style={{
-                                fontSize: 12, fontWeight: 600, color: "hsl(var(--foreground))",
-                                marginBottom: 6,
-                              }}>Improvement Example:</p>
-                              <div style={{
-                                fontSize: 13, color: "hsl(var(--foreground))",
-                                background: "hsl(var(--secondary))", borderRadius: 10,
-                                padding: 16, lineHeight: 1.6,
-                                borderLeft: "3px solid hsl(var(--criteria-pass))",
+                            <div className="mt-3.5">
+                              <p className="text-xs font-semibold text-foreground mb-1.5">Improvement Example:</p>
+                              <div className="text-sm text-foreground bg-secondary rounded-lg p-4 leading-relaxed border-l-[3px]" style={{
+                                borderLeftColor: "hsl(var(--criteria-pass))",
                               }}>{cr.improvementExample}</div>
                             </div>
                           )}
@@ -189,26 +165,18 @@ export const AnalysisTab = ({ call }: Props) => {
       </div>
 
       {/* Submission Details */}
-      <div style={{
-        border: "1px solid hsl(var(--border))", borderRadius: 12,
-        padding: "20px 24px", background: "hsl(var(--card))",
-      }}>
-        <p style={{ fontSize: 14, fontWeight: 600, color: "hsl(var(--foreground))", marginBottom: 14 }}>
-          Submission Details
-        </p>
-        <div style={{ display: "flex", gap: 40, fontSize: 13 }}>
+      <div className="border border-border rounded-xl p-5 bg-card">
+        <p className="text-sm font-semibold text-foreground mb-3.5">Submission Details</p>
+        <div className="flex gap-10 text-sm">
           <div>
-            <p style={{ color: "hsl(var(--muted-foreground))", marginBottom: 4, fontSize: 12 }}>Input Type</p>
-            <p style={{
-              color: "hsl(var(--foreground))", fontWeight: 500,
-              display: "flex", alignItems: "center", gap: 6,
-            }}>
+            <p className="text-muted-foreground text-xs mb-1">Input Type</p>
+            <p className="text-foreground font-medium flex items-center gap-1.5">
               <FileText size={14} /> Transcript
             </p>
           </div>
           <div>
-            <p style={{ color: "hsl(var(--muted-foreground))", marginBottom: 4, fontSize: 12 }}>Duration</p>
-            <p style={{ color: "hsl(var(--foreground))", fontWeight: 500 }}>{call.duration}</p>
+            <p className="text-muted-foreground text-xs mb-1">Duration</p>
+            <p className="text-foreground font-medium">{call.duration}</p>
           </div>
         </div>
       </div>
