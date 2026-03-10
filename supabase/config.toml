@@ -1,1 +1,4 @@
 project_id = "pzotsitgrydffhibzgto"
+
+[functions.n8n-callback]
+verify_jwt = false
