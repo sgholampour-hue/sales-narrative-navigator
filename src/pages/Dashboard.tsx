@@ -12,8 +12,8 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 const CATEGORIES = [
-  { key: "callControlScore" as const, label: "Call Control", icon: "🎯" },
-  { key: "discoveryDepthScore" as const, label: "Discovery Depth", icon: "🔍" },
+  { key: "callControlScore" as const, label: "Gesprekscontrole", icon: "🎯" },
+  { key: "discoveryDepthScore" as const, label: "Discovery Diepte", icon: "🔍" },
   { key: "beliefShiftingScore" as const, label: "Overtuiging", icon: "💡" },
   { key: "objectionHandlingScore" as const, label: "Bezwaarbehandeling", icon: "🛠" },
   { key: "pitchEffectivenessScore" as const, label: "Pitch Effectiviteit", icon: "📊" },
@@ -53,15 +53,14 @@ const Dashboard = () => {
   }, [calls, total]);
 
   const radarData = [
-    { subject: "Call Control", score: avgMetrics.callControl },
+    { subject: "Gesprekscontrole", score: avgMetrics.callControl },
     { subject: "Discovery", score: avgMetrics.discovery },
     { subject: "Overtuiging", score: avgMetrics.beliefShifting },
     { subject: "Bezwaren", score: avgMetrics.objectionHandling },
     { subject: "Pitch", score: avgMetrics.pitch },
-    { subject: "Closing", score: avgMetrics.closing },
+    { subject: "Afsluiting", score: avgMetrics.closing },
   ];
 
-  // Rep performance
   const repMap = new Map<string, { total: number; count: number; deals: number; scores: Record<string, number[]> }>();
   calls.forEach(c => {
     const r = repMap.get(c.rep) || { total: 0, count: 0, deals: 0, scores: {} };
@@ -84,7 +83,6 @@ const Dashboard = () => {
     scores: d.scores,
   }));
 
-  // Leaderboard per category
   const leaderboard = CATEGORIES.map(cat => {
     const ranked = repData
       .map(r => ({ name: r.fullName, avg: +(r.scores[cat.key]?.reduce((a, b) => a + b, 0) / (r.scores[cat.key]?.length || 1)).toFixed(1) }))
@@ -93,12 +91,12 @@ const Dashboard = () => {
   });
 
   const kpis = [
-    { label: "Totaal Calls", value: total, icon: <Phone size={18} />, color: "hsl(var(--primary))" },
+    { label: "Totaal Gesprekken", value: total, icon: <Phone size={18} />, color: "hsl(var(--primary))" },
     { label: "Gem. Score", value: `${avgScore}/10`, icon: <Target size={18} />, color: "hsl(var(--criteria-pass))", sub: avgScore >= 6 ? "Goed" : "Verbeterbaar" },
     { label: "Conversie", value: `${conversionRate}%`, icon: <Percent size={18} />, color: "hsl(var(--criteria-neutral))", sub: `${closedDeals.length} van ${total}` },
     { label: "Totale Omzet", value: `€${totalRevenue.toLocaleString()}`, icon: <DollarSign size={18} />, color: "hsl(var(--criteria-pass))" },
     { label: "Gem. Deal Waarde", value: `€${avgDealValue.toLocaleString()}`, icon: <TrendingUp size={18} />, color: "hsl(var(--primary))" },
-    { label: "Reps", value: repMap.size, icon: <Users size={18} />, color: "hsl(var(--criteria-neutral))" },
+    { label: "Vertegenwoordigers", value: repMap.size, icon: <Users size={18} />, color: "hsl(var(--criteria-neutral))" },
   ];
 
   const medalColors = ["hsl(45 93% 47%)", "hsl(0 0% 66%)", "hsl(25 50% 45%)"];
@@ -163,7 +161,7 @@ const Dashboard = () => {
               Reset
             </button>
           )}
-          <span className="text-xs text-muted-foreground ml-auto">{total} calls gevonden</span>
+          <span className="text-xs text-muted-foreground ml-auto">{total} gesprekken gevonden</span>
         </div>
 
         {/* KPI Cards */}
@@ -195,7 +193,7 @@ const Dashboard = () => {
           </div>
 
           <div className="bg-card rounded-xl border border-border p-5">
-            <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score per Rep</p>
+            <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score per Vertegenwoordiger</p>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={repData}>
                 <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
@@ -214,7 +212,7 @@ const Dashboard = () => {
         <div className="bg-card rounded-xl border border-border p-5 mb-6">
           <div className="flex items-center gap-2 mb-4">
             <Trophy size={16} className="text-foreground" />
-            <p className="text-sm font-bold text-foreground tracking-tight">Leaderboard — Top Performers per Categorie</p>
+            <p className="text-sm font-bold text-foreground tracking-tight">Leaderboard — Top Presteerders per Categorie</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {leaderboard.map(cat => (
@@ -245,13 +243,13 @@ const Dashboard = () => {
         {/* Rep table */}
         <div className="bg-card rounded-xl border border-border overflow-hidden">
           <div className="p-4 border-b border-border">
-            <p className="text-sm font-bold text-foreground tracking-tight">Rep Overzicht</p>
+            <p className="text-sm font-bold text-foreground tracking-tight">Vertegenwoordiger Overzicht</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border">
-                  {["Rep", "Calls", "Gem. Score", "Deals Gesloten", "Conversie"].map(h => (
+                  {["Vertegenwoordiger", "Gesprekken", "Gem. Score", "Deals Gesloten", "Conversie"].map(h => (
                     <th key={h} className="px-4 py-2.5 text-left font-medium text-muted-foreground text-xs">{h}</th>
                   ))}
                 </tr>

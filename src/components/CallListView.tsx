@@ -11,9 +11,19 @@ const STATUS_COLORS: Record<string, { bg: string; text: string; border: string }
   Processing: { bg: "hsl(var(--status-active-bg))", text: "hsl(var(--status-active-text))", border: "hsl(var(--status-active-border))" },
 };
 
+const STATUS_LABELS: Record<string, string> = {
+  Completed: "Voltooid",
+  Active: "Actief",
+  Failed: "Mislukt",
+  Pending: "In wachtrij",
+  Processing: "Verwerken",
+  Joining: "Deelnemen",
+};
+
 const PROGRESS_MAP: Record<string, { color: string; label: string }> = {
-  Declining: { color: "hsl(var(--trend-declining))", label: "Declining" },
-  Improving: { color: "hsl(var(--trend-improving))", label: "Improving" },
+  Declining: { color: "hsl(var(--trend-declining))", label: "Dalend" },
+  Improving: { color: "hsl(var(--trend-improving))", label: "Stijgend" },
+  Steady: { color: "hsl(var(--trend-neutral))", label: "Stabiel" },
   "-": { color: "hsl(var(--trend-neutral))", label: "-" },
 };
 
@@ -48,10 +58,10 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
     : "0";
 
   const scoreCards = [
-    { label: "Discovery Calls" },
-    { label: "Interview Calls" },
-    { label: "Sales Calls", score: avg, count: calls.length, change: "-0.3" },
-    { label: "Podcast Calls" },
+    { label: "Discovery Gesprekken" },
+    { label: "Interview Gesprekken" },
+    { label: "Sales Gesprekken", score: avg, count: calls.length, change: "-0.3" },
+    { label: "Podcast Gesprekken" },
   ];
 
   const filters = [
@@ -74,15 +84,15 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">Sales Calls</h1>
-          <p className="text-sm text-muted-foreground mt-1">View and manage your AI-analyzed sales calls</p>
+          <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">Sales Gesprekken</h1>
+          <p className="text-sm text-muted-foreground mt-1">Bekijk en beheer je AI-geanalyseerde verkoopgesprekken</p>
         </div>
         <div className="flex gap-2">
           <button className="border border-border rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-card text-foreground cursor-pointer flex items-center gap-1.5 hover:bg-secondary transition-colors">
-            <Settings size={14} /> <span className="hidden sm:inline">Settings</span>
+            <Settings size={14} /> <span className="hidden sm:inline">Instellingen</span>
           </button>
           <button onClick={() => navigate("/new-call")} className="rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-none bg-foreground text-card cursor-pointer flex items-center gap-1.5">
-            <Plus size={14} /> New Call
+            <Plus size={14} /> Nieuw Gesprek
           </button>
         </div>
       </div>
@@ -104,12 +114,12 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     <TrendingDown size={13} /> {c.change}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">Based on {c.count} calls</p>
+                <p className="text-xs text-muted-foreground mt-1">Gebaseerd op {c.count} gesprekken</p>
               </div>
             ) : (
               <div className="flex items-center gap-2 sm:gap-3">
-                <span className="text-xs sm:text-sm font-semibold text-foreground bg-secondary rounded-md px-2 sm:px-3 py-1">No Data Yet</span>
-                <span className="text-xs text-muted-foreground">Need at least 2 calls</span>
+                <span className="text-xs sm:text-sm font-semibold text-foreground bg-secondary rounded-md px-2 sm:px-3 py-1">Nog geen data</span>
+                <span className="text-xs text-muted-foreground">Minimaal 2 gesprekken nodig</span>
               </div>
             )}
           </div>
@@ -152,7 +162,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                           }
                           className="accent-foreground"
                         />
-                        {s}
+                        {STATUS_LABELS[s] || s}
                       </label>
                     ))}
                   </div>
@@ -165,7 +175,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
             <input
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="Search sales calls..."
+              placeholder="Zoek in gesprekken..."
               className="border-none bg-transparent outline-none text-xs w-36 sm:w-44 text-foreground placeholder:text-muted-foreground"
             />
           </div>
@@ -179,12 +189,12 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                 {[
                   { label: "", sortable: false, width: 40 },
                   { label: "Type", sortable: true },
-                  { label: "Meeting/Call", sortable: false },
+                  { label: "Gesprek", sortable: false },
                   { label: "Status", sortable: false },
-                  { label: "Date", sortable: true },
-                  { label: "Duration", sortable: true },
-                  { label: "Insights", sortable: true },
-                  { label: "Progress", sortable: true },
+                  { label: "Datum", sortable: true },
+                  { label: "Duur", sortable: true },
+                  { label: "Inzichten", sortable: true },
+                  { label: "Voortgang", sortable: true },
                   { label: "", sortable: false, width: 40 },
                 ].map((h, i) => (
                   <th key={i} className="px-4 py-2.5 text-left font-medium text-muted-foreground whitespace-nowrap border-b border-border text-xs" style={{ width: h.width }}>
@@ -216,12 +226,12 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     </td>
                     <td className="px-4 py-3.5">
                       <span className="rounded-full px-3 py-1 text-xs font-medium inline-flex items-center gap-1" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
-                        {c.status === "Processing" ? <Loader2 size={12} className="animate-spin" /> : c.status === "Pending" ? <Clock size={12} /> : <CircleCheck size={12} />} {c.status}
+                        {c.status === "Processing" ? <Loader2 size={12} className="animate-spin" /> : c.status === "Pending" ? <Clock size={12} /> : <CircleCheck size={12} />} {STATUS_LABELS[c.status] || c.status}
                       </span>
                     </td>
                     <td className="px-4 py-3.5 text-foreground text-sm">{c.displayDate}</td>
                     <td className="px-4 py-3.5 text-muted-foreground text-sm">-</td>
-                    <td className="px-4 py-3.5 text-foreground text-sm">{c.insights}</td>
+                    <td className="px-4 py-3.5 text-foreground text-sm">{c.insights === "Available" ? "Beschikbaar" : c.insights}</td>
                     <td className="px-4 py-3.5">
                       {c.progress !== "-" ? (
                         <span className="flex items-center gap-1 text-sm" style={{ color: p.color }}>
@@ -256,7 +266,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                     <p className="text-muted-foreground text-xs mt-0.5">{c.company} | {c.callType}</p>
                   </div>
                   <span className="rounded-full px-2.5 py-0.5 text-[11px] font-medium inline-flex items-center gap-1" style={{ background: s.bg, color: s.text, border: `1px solid ${s.border}` }}>
-                    {c.status === "Processing" ? <Loader2 size={10} className="animate-spin" /> : c.status === "Pending" ? <Clock size={10} /> : <CircleCheck size={10} />} {c.status}
+                    {c.status === "Processing" ? <Loader2 size={10} className="animate-spin" /> : c.status === "Pending" ? <Clock size={10} /> : <CircleCheck size={10} />} {STATUS_LABELS[c.status] || c.status}
                   </span>
                 </div>
                 <div className="flex items-center gap-4 text-xs text-muted-foreground">
@@ -277,10 +287,10 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
 
         {/* Pagination */}
         <div className="flex justify-between items-center px-4 py-3 border-t border-border text-xs text-muted-foreground">
-          <span>Viewing <strong className="text-foreground">1-{filtered.length}</strong> of <strong className="text-foreground">{filtered.length}</strong> results</span>
+          <span><strong className="text-foreground">1-{filtered.length}</strong> van <strong className="text-foreground">{filtered.length}</strong> resultaten</span>
           <div className="flex gap-1.5">
-            <button className="border border-border rounded-md px-3 py-1 text-xs bg-card text-muted-foreground cursor-pointer hover:bg-secondary">Previous</button>
-            <button className="border border-border rounded-md px-3 py-1 text-xs bg-card text-muted-foreground cursor-pointer hover:bg-secondary">Next</button>
+            <button className="border border-border rounded-md px-3 py-1 text-xs bg-card text-muted-foreground cursor-pointer hover:bg-secondary">Vorige</button>
+            <button className="border border-border rounded-md px-3 py-1 text-xs bg-card text-muted-foreground cursor-pointer hover:bg-secondary">Volgende</button>
           </div>
         </div>
       </div>

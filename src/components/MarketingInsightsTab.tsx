@@ -9,16 +9,16 @@ export const MarketingInsightsTab = ({ call }: Props) => {
     return (
       <div className="text-center py-16 text-muted-foreground border border-border rounded-xl bg-card">
         <p className="text-4xl mb-2.5">📊</p>
-        <p className="text-sm">Geen marketing insights beschikbaar voor dit gesprek.</p>
+        <p className="text-sm">Geen marketing inzichten beschikbaar voor dit gesprek.</p>
       </div>
     );
   }
 
   return (
     <div>
-      {/* Pain Points */}
+      {/* Pijnpunten */}
       <div className="bg-secondary rounded-xl p-5 mb-5">
-        <p className="text-sm font-semibold text-foreground mb-3.5">⏱ Pain Points & Challenges</p>
+        <p className="text-sm font-semibold text-foreground mb-3.5">⏱ Pijnpunten & Uitdagingen</p>
         {call.painPoints.map((p, i) => (
           <div key={i} className="bg-card rounded-lg p-4 mb-2.5 border border-border last:mb-0">
             <p className="text-sm font-semibold text-foreground mb-1.5">{p.title}</p>
@@ -27,9 +27,9 @@ export const MarketingInsightsTab = ({ call }: Props) => {
         ))}
       </div>
 
-      {/* Goals */}
+      {/* Doelen */}
       <div className="bg-secondary rounded-xl p-5">
-        <p className="text-sm font-semibold text-foreground mb-3.5">🎯 Goals & Objectives</p>
+        <p className="text-sm font-semibold text-foreground mb-3.5">🎯 Doelen & Doelstellingen</p>
         {call.goals.map((g, i) => (
           <div key={i} className="bg-card rounded-lg p-4 mb-2.5 border border-border last:mb-0">
             <p className="text-sm font-semibold text-foreground mb-1.5">{g.title}</p>

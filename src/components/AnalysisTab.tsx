@@ -45,8 +45,8 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       {/* Score cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-7">
         {[
-          { l: "Total Score", s: "Total points earned across all analyzed stages.", sc: call.totalScore },
-          { l: "Average Score", s: "Average stage performance calculated across all stages.", sc: call.averageScore },
+          { l: "Totaal Score", s: "Totaal behaalde punten over alle geanalyseerde fases.", sc: call.totalScore },
+          { l: "Gemiddelde Score", s: "Gemiddelde prestatie berekend over alle fases.", sc: call.averageScore },
         ].map(x => {
           const c = scoreColor(x.sc);
           return (
@@ -65,7 +65,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
 
       {/* Score Breakdown */}
       <div className="border border-border rounded-xl p-5 bg-card mb-7">
-        <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score Breakdown</p>
+        <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score Overzicht</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {BREAKDOWN_ITEMS.map(item => {
             const sc = call[item.key];
@@ -124,9 +124,9 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       {/* Call Stages Analysis */}
       <div className="mb-7">
         <div className="flex justify-between items-center mb-4">
-          <p className="text-sm font-bold text-foreground tracking-tight">Call Stages Analysis</p>
+          <p className="text-sm font-bold text-foreground tracking-tight">Gespreksfasen Analyse</p>
           <span className="text-xs text-muted-foreground flex items-center gap-1.5">
-            <Info size={13} /> Click on stage to open analysis
+            <Info size={13} /> Klik op een fase om de analyse te openen
           </span>
         </div>
 
@@ -153,7 +153,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
                 {isOpen && (
                   <div className="px-4 sm:px-5 pb-5 border-t border-border">
                     {st.criteria.length === 0 && (
-                      <p className="text-sm text-muted-foreground py-4">Geen gedetailleerde criteria beschikbaar voor dit stage.</p>
+                      <p className="text-sm text-muted-foreground py-4">Geen gedetailleerde criteria beschikbaar voor deze fase.</p>
                     )}
                     {st.criteria.map(cr => {
                       const critStyle = CRIT_BG[cr.status];
@@ -178,7 +178,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
 
                           {cr.transcriptExamples && (
                             <div className="mt-3.5">
-                              <p className="text-xs font-semibold text-foreground mb-1.5">Transcript Examples:</p>
+                              <p className="text-xs font-semibold text-foreground mb-1.5">Transcriptie Voorbeelden:</p>
                               {cr.transcriptExamples.map((t, i) => (
                                 <p key={i} className="text-xs text-muted-foreground italic mb-1">{t}</p>
                               ))}
@@ -187,7 +187,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
 
                           {cr.improvementExample && (
                             <div className="mt-3.5">
-                              <p className="text-xs font-semibold text-foreground mb-1.5">Improvement Example:</p>
+                              <p className="text-xs font-semibold text-foreground mb-1.5">Verbetervoorbeeld:</p>
                               <div className="text-sm text-foreground bg-secondary rounded-lg p-4 leading-relaxed border-l-[3px]" style={{
                                 borderLeftColor: "hsl(var(--criteria-pass))",
                               }}>{cr.improvementExample}</div>
@@ -206,16 +206,16 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
 
       {/* Submission Details */}
       <div className="border border-border rounded-xl p-5 bg-card">
-        <p className="text-sm font-semibold text-foreground mb-3.5">Submission Details</p>
+        <p className="text-sm font-semibold text-foreground mb-3.5">Indiening Details</p>
         <div className="flex gap-10 text-sm">
           <div>
-            <p className="text-muted-foreground text-xs mb-1">Input Type</p>
+            <p className="text-muted-foreground text-xs mb-1">Invoertype</p>
             <p className="text-foreground font-medium flex items-center gap-1.5">
-              <FileText size={14} /> Transcript
+              <FileText size={14} /> Transcriptie
             </p>
           </div>
           <div>
-            <p className="text-muted-foreground text-xs mb-1">Duration</p>
+            <p className="text-muted-foreground text-xs mb-1">Duur</p>
             <p className="text-foreground font-medium">{call.duration}</p>
           </div>
         </div>
