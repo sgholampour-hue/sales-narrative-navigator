@@ -5,6 +5,14 @@ import { MarketingInsightsTab } from "@/components/MarketingInsightsTab";
 import { Phone, CircleCheck, Copy, MoreHorizontal, User, Mail, Calendar, ChevronDown, Download, FileText } from "lucide-react";
 import { exportCallCSV, exportCallPDF } from "@/lib/exportUtils";
 
+const STATUS_LABELS: Record<string, string> = {
+  Completed: "Voltooid",
+  Active: "Actief",
+  Failed: "Mislukt",
+  Pending: "In wachtrij",
+  Processing: "Verwerken",
+};
+
 interface Props {
   call: Call;
   allCalls?: Call[];
@@ -12,8 +20,8 @@ interface Props {
 }
 
 export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
-  const [tab, setTab] = useState("Analysis");
-  const tabs = ["Analysis", "Marketing Insights", "Transcript"];
+  const [tab, setTab] = useState("Analyse");
+  const tabs = ["Analyse", "Marketing Inzichten", "Transcriptie"];
 
   return (
     <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-10 py-6 pb-16">
@@ -23,7 +31,7 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
           <Phone size={13} /> Sales Call Analyzer
         </button>
         <span className="opacity-50">›</span>
-        <span className="text-foreground font-medium">Call Details</span>
+        <span className="text-foreground font-medium">Gespreksdetails</span>
       </div>
 
       {/* Header */}
@@ -31,17 +39,17 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
         <div>
           <div className="flex flex-wrap items-center gap-3 mb-1.5">
             <h1 className="text-lg sm:text-xl font-bold text-foreground tracking-tight">
-              AI Sales Call Recording Analysis
+              AI Sales Gespreksanalyse
             </h1>
             <span className="rounded-full px-3 py-1 text-xs font-medium inline-flex items-center gap-1" style={{
               background: "hsl(var(--status-completed-bg))", color: "hsl(var(--status-completed-text))",
               border: "1px solid hsl(var(--status-completed-border))",
             }}>
-              <CircleCheck size={12} /> {call.status}
+              <CircleCheck size={12} /> {STATUS_LABELS[call.status] || call.status}
             </span>
           </div>
           <p className="text-sm text-muted-foreground flex items-center gap-1.5">
-            Submission ID: {call.id}
+            Indiening ID: {call.id}
             <Copy size={12} className="cursor-pointer opacity-50 hover:opacity-100" />
           </p>
         </div>
@@ -57,12 +65,12 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
 
       {/* Submission info card */}
       <div className="border border-border rounded-xl p-4 sm:p-5 mb-4 bg-card">
-        <p className="text-sm font-semibold text-foreground mb-4">Submission Information</p>
+        <p className="text-sm font-semibold text-foreground mb-4">Indiening Informatie</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             { icon: <User size={15} className="text-muted-foreground" />, value: call.rep },
             { icon: <Mail size={15} className="text-muted-foreground" />, value: call.repEmail },
-            { icon: <Calendar size={15} className="text-muted-foreground" />, label: "Created:", value: call.createdAt },
+            { icon: <Calendar size={15} className="text-muted-foreground" />, label: "Aangemaakt:", value: call.createdAt },
           ].map((x, i) => (
             <div key={i} className="bg-secondary rounded-lg p-3 flex items-center gap-2.5 text-sm text-foreground">
               {x.icon}
@@ -77,18 +85,18 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
       <div className="border border-border rounded-xl p-4 sm:p-5 mb-6 bg-card">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <p className="text-sm font-semibold text-foreground">Call Context</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Prospect and company information</p>
+            <p className="text-sm font-semibold text-foreground">Gesprekscontext</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Prospect- en bedrijfsinformatie</p>
           </div>
           <button className="border border-border rounded-lg px-3 py-1.5 text-xs font-medium bg-card text-foreground cursor-pointer flex items-center gap-1 hover:bg-secondary transition-colors">
-            <ChevronDown size={13} /> View All Info
+            <ChevronDown size={13} /> Alle Info Bekijken
           </button>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
             { icon: <User size={15} className="text-muted-foreground" />, value: `${call.prospect}${call.prospectTitle ? `, ${call.prospectTitle}` : ""}` },
             { icon: <Mail size={15} className="text-muted-foreground" />, value: call.prospectEmail },
-            { icon: <Calendar size={15} className="text-muted-foreground" />, label: "Call Date:", value: call.callDate },
+            { icon: <Calendar size={15} className="text-muted-foreground" />, label: "Gespreksdatum:", value: call.callDate },
           ].map((x, i) => (
             <div key={i} className="bg-secondary rounded-lg p-3 flex items-center gap-2.5 text-sm text-foreground">
               {x.icon}
@@ -115,12 +123,12 @@ export const CallDetailView = ({ call, allCalls, onBack }: Props) => {
       </div>
 
       {/* Tab content */}
-      {tab === "Analysis" && <AnalysisTab call={call} allCalls={allCalls} />}
-      {tab === "Marketing Insights" && <MarketingInsightsTab call={call} />}
-      {tab === "Transcript" && (
+      {tab === "Analyse" && <AnalysisTab call={call} allCalls={allCalls} />}
+      {tab === "Marketing Inzichten" && <MarketingInsightsTab call={call} />}
+      {tab === "Transcriptie" && (
         <div className="text-center py-20 text-muted-foreground border border-border rounded-xl bg-card">
           <p className="text-4xl mb-3">📝</p>
-          <p className="text-sm">Transcript niet beschikbaar voor dit gesprek.</p>
+          <p className="text-sm">Transcriptie niet beschikbaar voor dit gesprek.</p>
         </div>
       )}
     </div>
