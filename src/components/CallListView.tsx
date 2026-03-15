@@ -88,10 +88,10 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
           <p className="text-sm text-muted-foreground mt-1">Bekijk en beheer je AI-geanalyseerde verkoopgesprekken</p>
         </div>
         <div className="flex gap-2">
-          <button className="border border-border rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-card text-foreground cursor-pointer flex items-center gap-1.5 hover:bg-secondary transition-colors">
+          <button className="border border-border/50 rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm font-light bg-transparent text-muted-foreground cursor-pointer flex items-center gap-1.5 hover:text-foreground hover:border-border transition-all">
             <Settings size={14} /> <span className="hidden sm:inline">Instellingen</span>
           </button>
-          <button onClick={() => navigate("/new-call")} className="rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-none bg-foreground text-card cursor-pointer flex items-center gap-1.5">
+          <button onClick={() => navigate("/new-call")} className="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm font-light border border-primary/30 bg-primary/10 text-primary cursor-pointer flex items-center gap-1.5 hover:bg-primary/20 transition-all">
             <Plus size={14} /> Nieuw Gesprek
           </button>
         </div>
