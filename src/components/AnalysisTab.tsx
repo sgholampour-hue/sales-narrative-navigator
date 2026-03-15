@@ -134,7 +134,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
           {call.stages.map(st => {
             const isOpen = expandedStage === st.name;
             return (
-              <div key={st.name} className="border border-border rounded-xl bg-card overflow-hidden" style={{
+              <div key={st.name} className="border border-border/30 rounded-xl bg-card overflow-hidden glass-card glow-card" style={{
                 borderLeft: isOpen ? "3px solid hsl(var(--primary))" : undefined,
               }}>
                 <div
