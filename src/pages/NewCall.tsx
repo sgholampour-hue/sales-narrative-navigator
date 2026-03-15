@@ -98,7 +98,7 @@ const NewCall = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-[700px] mx-auto px-4 sm:px-6 py-8">
         {/* Stappen */}
@@ -114,7 +114,7 @@ const NewCall = () => {
           )}>2</div>
         </div>
 
-        <div className="bg-card rounded-xl border border-border p-6 sm:p-8">
+        <div className="bg-card rounded-xl border border-border/30 p-6 sm:p-8 glass-card">
           {step === 1 && (
             <>
               <h2 className="text-lg font-bold text-foreground mb-1">Sales Gesprek Beoordelen</h2>
@@ -211,7 +211,7 @@ const NewCall = () => {
               {/* Acties */}
               <div className="flex justify-between items-center mt-4">
                 <Button variant="outline" onClick={() => setStep(1)} disabled={isSubmitting}>Vorige</Button>
-                <Button onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="bg-foreground text-card hover:bg-foreground/90">
+                <Button onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="bg-primary text-primary-foreground hover:bg-primary/90">
                   {isSubmitting ? (
                     <>
                       <Loader2 size={14} className="mr-2 animate-spin" />

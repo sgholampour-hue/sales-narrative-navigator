@@ -88,10 +88,10 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
           <p className="text-sm text-muted-foreground mt-1">Bekijk en beheer je AI-geanalyseerde verkoopgesprekken</p>
         </div>
         <div className="flex gap-2">
-          <button className="border border-border rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium bg-card text-foreground cursor-pointer flex items-center gap-1.5 hover:bg-secondary transition-colors">
+          <button className="border border-border/50 rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm font-light bg-transparent text-muted-foreground cursor-pointer flex items-center gap-1.5 hover:text-foreground hover:border-border transition-all">
             <Settings size={14} /> <span className="hidden sm:inline">Instellingen</span>
           </button>
-          <button onClick={() => navigate("/new-call")} className="rounded-lg px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium border-none bg-foreground text-card cursor-pointer flex items-center gap-1.5">
+          <button onClick={() => navigate("/new-call")} className="rounded-full px-3 sm:px-4 py-2 text-xs sm:text-sm font-light border border-primary/30 bg-primary/10 text-primary cursor-pointer flex items-center gap-1.5 hover:bg-primary/20 transition-all">
             <Plus size={14} /> Nieuw Gesprek
           </button>
         </div>
@@ -100,7 +100,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
       {/* Score Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {scoreCards.map((c, idx) => (
-          <div key={c.label} className="bg-card rounded-xl p-4 sm:p-5 border border-border">
+          <div key={c.label} className="bg-card rounded-xl p-4 sm:p-5 border border-border/30 glass-card">
             <div className="flex justify-between items-start mb-3 sm:mb-4">
               <span className="text-xs sm:text-sm font-medium text-muted-foreground">{c.label}</span>
               <span className="text-muted-foreground opacity-50">{CARD_ICONS[idx]}</span>
@@ -129,7 +129,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
       {/* Table Card */}
       <div
         onClick={() => { setStatusDropdown(false); setTypeDropdown(false); }}
-        className="bg-card rounded-xl border border-border overflow-hidden"
+        className="bg-card rounded-xl border border-border/30 overflow-hidden glass-card"
       >
         {/* Filters */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-3 sm:p-4 border-b border-border">

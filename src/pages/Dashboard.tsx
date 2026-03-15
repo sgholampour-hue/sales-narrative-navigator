@@ -102,7 +102,7 @@ const Dashboard = () => {
   const medalColors = ["hsl(45 93% 47%)", "hsl(0 0% 66%)", "hsl(25 50% 45%)"];
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
         {/* Header */}
@@ -167,7 +167,7 @@ const Dashboard = () => {
         {/* KPI Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 mb-6">
           {kpis.map(k => (
-            <div key={k.label} className="bg-card rounded-xl p-4 border border-border">
+            <div key={k.label} className="bg-card rounded-xl p-4 border border-border/30 glass-card">
               <div className="flex justify-between items-start mb-2">
                 <span className="text-xs font-medium text-muted-foreground">{k.label}</span>
                 <span style={{ color: k.color }}>{k.icon}</span>
@@ -180,7 +180,7 @@ const Dashboard = () => {
 
         {/* Charts row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-          <div className="bg-card rounded-xl border border-border p-5">
+           <div className="bg-card rounded-xl border border-border/30 p-5 glass-card">
             <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Gemiddelde Scores per Categorie</p>
             <ResponsiveContainer width="100%" height={280}>
               <RadarChart data={radarData}>
@@ -192,7 +192,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-card rounded-xl border border-border p-5">
+          <div className="bg-card rounded-xl border border-border/30 p-5 glass-card">
             <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score per Vertegenwoordiger</p>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={repData}>
