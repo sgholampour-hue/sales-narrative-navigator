@@ -102,7 +102,7 @@ const Dashboard = () => {
   const medalColors = ["hsl(45 93% 47%)", "hsl(0 0% 66%)", "hsl(25 50% 45%)"];
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-6 sm:py-8">
         {/* Header */}
