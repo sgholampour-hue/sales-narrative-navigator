@@ -100,7 +100,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
       {/* Score Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {scoreCards.map((c, idx) => (
-          <div key={c.label} className="bg-card rounded-xl p-4 sm:p-5 border border-border/30 glass-card">
+          <div key={c.label} className="bg-card rounded-xl p-4 sm:p-5 border border-border/30 glass-card glow-card">
             <div className="flex justify-between items-start mb-3 sm:mb-4">
               <span className="text-xs sm:text-sm font-medium text-muted-foreground">{c.label}</span>
               <span className="text-muted-foreground opacity-50">{CARD_ICONS[idx]}</span>
