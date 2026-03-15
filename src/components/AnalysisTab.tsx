@@ -91,7 +91,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       </div>
 
       {/* Gespreksanalyse Samenvatting */}
-      <div className="border border-border rounded-xl p-5 bg-card mb-7">
+       <div className="border border-border/30 rounded-xl p-5 bg-card mb-7 glass-card glow-card">
         <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Gespreksanalyse Samenvatting</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
           {SUMMARY_ITEMS.map(item => (
