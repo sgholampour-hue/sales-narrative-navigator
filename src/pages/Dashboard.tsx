@@ -192,7 +192,7 @@ const Dashboard = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="bg-card rounded-xl border border-border p-5">
+          <div className="bg-card rounded-xl border border-border/30 p-5 glass-card">
             <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score per Vertegenwoordiger</p>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={repData}>

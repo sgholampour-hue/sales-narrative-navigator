@@ -129,7 +129,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
       {/* Table Card */}
       <div
         onClick={() => { setStatusDropdown(false); setTypeDropdown(false); }}
-        className="bg-card rounded-xl border border-border overflow-hidden"
+        className="bg-card rounded-xl border border-border/30 overflow-hidden glass-card"
       >
         {/* Filters */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 p-3 sm:p-4 border-b border-border">

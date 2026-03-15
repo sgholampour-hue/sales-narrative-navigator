@@ -33,7 +33,7 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-background">
       <Navbar />
       {view === "list" && <CallListView calls={calls} onOpenCall={openCall} />}
       {view === "detail" && selectedCall && (

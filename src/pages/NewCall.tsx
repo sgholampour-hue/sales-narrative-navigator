@@ -211,7 +211,7 @@ const NewCall = () => {
               {/* Acties */}
               <div className="flex justify-between items-center mt-4">
                 <Button variant="outline" onClick={() => setStep(1)} disabled={isSubmitting}>Vorige</Button>
-                <Button onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="bg-foreground text-card hover:bg-foreground/90">
+                <Button onClick={handleSubmit} disabled={!canSubmit || isSubmitting} className="bg-primary text-primary-foreground hover:bg-primary/90">
                   {isSubmitting ? (
                     <>
                       <Loader2 size={14} className="mr-2 animate-spin" />
