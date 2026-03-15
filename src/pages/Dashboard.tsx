@@ -180,7 +180,7 @@ const Dashboard = () => {
 
         {/* Charts row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
-           <div className="bg-card rounded-xl border border-border/30 p-5 glass-card">
+           <div className="bg-card rounded-xl border border-border/30 p-5 glass-card glow-card">
             <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Gemiddelde Scores per Categorie</p>
             <ResponsiveContainer width="100%" height={280}>
               <RadarChart data={radarData}>
