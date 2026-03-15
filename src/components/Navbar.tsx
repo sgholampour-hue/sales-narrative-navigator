@@ -1,8 +1,10 @@
-import { Phone, Bell, Sparkles, LayoutDashboard } from "lucide-react";
+import { Phone, Bell, Sparkles, LayoutDashboard, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 export const Navbar = () => {
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -49,6 +51,13 @@ export const Navbar = () => {
         </div>
       </div>
       <div className="flex gap-2">
+        <button
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+          className="border border-border/50 rounded-full px-3 py-1.5 text-xs font-light bg-transparent text-muted-foreground flex items-center gap-1.5 cursor-pointer hover:text-foreground hover:border-border transition-all"
+        >
+          {theme === "dark" ? <Sun size={13} /> : <Moon size={13} />}
+          <span className="hidden sm:inline">{theme === "dark" ? "Licht" : "Donker"}</span>
+        </button>
         <button className="hidden sm:flex border border-border/50 rounded-full px-3.5 py-1.5 text-xs font-light bg-transparent text-muted-foreground items-center gap-1.5 cursor-pointer hover:text-foreground hover:border-border transition-all">
           <Bell size={13} /> Meldingen
         </button>
