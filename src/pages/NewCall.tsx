@@ -98,7 +98,7 @@ const NewCall = () => {
   };
 
   return (
-    <div className="min-h-screen bg-secondary">
+    <div className="min-h-screen bg-background">
       <Navbar />
       <div className="max-w-[700px] mx-auto px-4 sm:px-6 py-8">
         {/* Stappen */}
