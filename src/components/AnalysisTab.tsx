@@ -205,7 +205,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       </div>
 
       {/* Submission Details */}
-      <div className="border border-border rounded-xl p-5 bg-card">
+      <div className="border border-border/30 rounded-xl p-5 bg-card glass-card">
         <p className="text-sm font-semibold text-foreground mb-3.5">Indiening Details</p>
         <div className="flex gap-10 text-sm">
           <div>
