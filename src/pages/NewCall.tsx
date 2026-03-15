@@ -114,7 +114,7 @@ const NewCall = () => {
           )}>2</div>
         </div>
 
-        <div className="bg-card rounded-xl border border-border p-6 sm:p-8">
+        <div className="bg-card rounded-xl border border-border/30 p-6 sm:p-8 glass-card">
           {step === 1 && (
             <>
               <h2 className="text-lg font-bold text-foreground mb-1">Sales Gesprek Beoordelen</h2>
