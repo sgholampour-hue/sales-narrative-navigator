@@ -50,7 +50,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
         ].map(x => {
           const c = scoreColor(x.sc);
           return (
-            <div key={x.l} className="border border-border rounded-xl p-5 bg-card flex justify-between items-center">
+            <div key={x.l} className="border border-border/30 rounded-xl p-5 bg-card flex justify-between items-center glass-card glow-card">
               <div>
                 <p className="text-sm font-semibold text-foreground mb-1">{x.l}</p>
                 <p className="text-xs text-muted-foreground">{x.s}</p>
