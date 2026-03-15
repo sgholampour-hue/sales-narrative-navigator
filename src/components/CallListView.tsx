@@ -100,7 +100,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
       {/* Score Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {scoreCards.map((c, idx) => (
-          <div key={c.label} className="bg-card rounded-xl p-4 sm:p-5 border border-border/30 glass-card">
+          <div key={c.label} className="bg-card rounded-xl p-4 sm:p-5 border border-border/30 glass-card glow-card">
             <div className="flex justify-between items-start mb-3 sm:mb-4">
               <span className="text-xs sm:text-sm font-medium text-muted-foreground">{c.label}</span>
               <span className="text-muted-foreground opacity-50">{CARD_ICONS[idx]}</span>
@@ -211,7 +211,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                 const s = STATUS_COLORS[c.status] || STATUS_COLORS.Completed;
                 const p = PROGRESS_MAP[c.progress] || PROGRESS_MAP["-"];
                 return (
-                  <tr key={c.id} onClick={() => onOpenCall(c)} className="cursor-pointer rh transition-colors">
+                  <tr key={c.id} onClick={() => onOpenCall(c)} className="cursor-pointer glow-row transition-colors">
                     <td className="px-4 py-3.5">
                       <input type="checkbox" onClick={e => e.stopPropagation()} className="accent-foreground w-4 h-4" />
                     </td>

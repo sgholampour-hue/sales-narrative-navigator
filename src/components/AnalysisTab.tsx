@@ -50,7 +50,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
         ].map(x => {
           const c = scoreColor(x.sc);
           return (
-            <div key={x.l} className="border border-border rounded-xl p-5 bg-card flex justify-between items-center">
+            <div key={x.l} className="border border-border/30 rounded-xl p-5 bg-card flex justify-between items-center glass-card glow-card">
               <div>
                 <p className="text-sm font-semibold text-foreground mb-1">{x.l}</p>
                 <p className="text-xs text-muted-foreground">{x.s}</p>
@@ -64,7 +64,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       </div>
 
       {/* Score Breakdown */}
-      <div className="border border-border rounded-xl p-5 bg-card mb-7">
+       <div className="border border-border/30 rounded-xl p-5 bg-card mb-7 glass-card glow-card">
         <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score Overzicht</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {BREAKDOWN_ITEMS.map(item => {
@@ -91,7 +91,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       </div>
 
       {/* Gespreksanalyse Samenvatting */}
-      <div className="border border-border rounded-xl p-5 bg-card mb-7">
+       <div className="border border-border/30 rounded-xl p-5 bg-card mb-7 glass-card glow-card">
         <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Gespreksanalyse Samenvatting</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
           {SUMMARY_ITEMS.map(item => (
@@ -115,7 +115,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
 
       {/* Score Trend Chart */}
       {allCalls && allCalls.length > 1 && (
-        <div className="border border-border rounded-xl p-5 bg-card mb-7">
+        <div className="border border-border/30 rounded-xl p-5 bg-card mb-7 glass-card glow-card">
           <p className="text-sm font-bold text-foreground mb-4 tracking-tight">Score Trends</p>
           <ScoreTrendChart calls={allCalls} />
         </div>
@@ -134,7 +134,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
           {call.stages.map(st => {
             const isOpen = expandedStage === st.name;
             return (
-              <div key={st.name} className="border border-border rounded-xl bg-card overflow-hidden" style={{
+              <div key={st.name} className="border border-border/30 rounded-xl bg-card overflow-hidden glass-card glow-card" style={{
                 borderLeft: isOpen ? "3px solid hsl(var(--primary))" : undefined,
               }}>
                 <div
@@ -205,7 +205,7 @@ export const AnalysisTab = ({ call, allCalls }: Props) => {
       </div>
 
       {/* Submission Details */}
-      <div className="border border-border rounded-xl p-5 bg-card">
+      <div className="border border-border/30 rounded-xl p-5 bg-card glass-card">
         <p className="text-sm font-semibold text-foreground mb-3.5">Indiening Details</p>
         <div className="flex gap-10 text-sm">
           <div>
