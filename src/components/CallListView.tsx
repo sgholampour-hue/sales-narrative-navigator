@@ -211,7 +211,7 @@ export const CallListView = ({ calls, onOpenCall }: Props) => {
                 const s = STATUS_COLORS[c.status] || STATUS_COLORS.Completed;
                 const p = PROGRESS_MAP[c.progress] || PROGRESS_MAP["-"];
                 return (
-                  <tr key={c.id} onClick={() => onOpenCall(c)} className="cursor-pointer rh transition-colors">
+                  <tr key={c.id} onClick={() => onOpenCall(c)} className="cursor-pointer glow-row transition-colors">
                     <td className="px-4 py-3.5">
                       <input type="checkbox" onClick={e => e.stopPropagation()} className="accent-foreground w-4 h-4" />
                     </td>
